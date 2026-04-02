@@ -1,5 +1,17 @@
 # Evento de conversión: click_whatsapp
 
+## Propósito
+Documentar la implementación y validación técnica del evento `click_whatsapp`.
+
+## Alcance
+Este documento aplica únicamente al evento `click_whatsapp` y no reemplaza la fuente global de conversiones del proyecto.
+
+## Estado
+Pendiente validación operativa
+
+## Fecha de actualización
+2026-04-02
+
 ## Descripción general
 
 Este documento describe la implementación, validación y uso del evento
@@ -9,6 +21,9 @@ para la landing page del proyecto **Mandarin – Google Ads**.
 El objetivo del evento es medir de forma confiable los clics en enlaces
 que redirigen a WhatsApp, los cuales representan el principal objetivo
 de conversión de la landing.
+
+La definición global de conversiones, su jerarquía y su estado consolidado
+se mantienen en `docs/01_base_tecnica/conversiones.md`.
 
 ---
 
@@ -46,17 +61,18 @@ https://www.whatsapp.com/...
 ## Estado del evento
 
 - Evento: click_whatsapp
-- Estado: DEFINITIVO
+- Estado técnico: Implementación documentada como cerrada
+- Estado operativo: Pendiente validación
 - Implementación: WordPress vía WPCode Lite (Footer)
 - Fecha de cierre: 2025-12-25
 
-Este evento no requiere modificaciones adicionales.
+No requiere cambios de implementación por defecto; su uso como conversión en operación debe verificarse en GA4 y Google Ads.
 
 ---
 
 ## Snippet final (GA4 – WhatsApp, robusto)
 
-Este es el **snippet definitivo y robusto aprobado para producción**. No debe modificarse ni duplicarse.
+Este es el snippet técnico de referencia para producción. No debe modificarse ni duplicarse sin registrar el cambio.
 
 ```html
 <script>
@@ -258,8 +274,8 @@ Luego de marcar el evento como conversión en GA4:
    * Categoría: Lead
    * Valor: usar el valor del evento
 
-Esta conversión será utilizada como objetivo principal de optimización
-para las campañas de Google Ads.
+Esta conversión puede utilizarse como objetivo principal de optimización,
+una vez confirmada su validación operativa.
 
 ---
 
@@ -275,8 +291,8 @@ para las campañas de Google Ads.
 
 ## Observaciones finales
 
-* Este evento es suficiente para lanzar la primera campaña.
-* No se recomienda lanzar Google Ads sin este evento activo.
+* Este evento puede ser suficiente para lanzar la primera campaña, una vez confirmada su validación operativa en GA4 y Google Ads.
+* Antes de lanzar Google Ads, se debe verificar que este evento esté activo, validado y correctamente importado como conversión.
 * Eventos adicionales (formulario, scroll) pueden implementarse en fases posteriores.
 * Este documento funciona como referencia técnica y operativa del proyecto.
 

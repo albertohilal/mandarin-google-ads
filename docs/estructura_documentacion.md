@@ -1,85 +1,74 @@
-> Documento operativo interno.
-> Define el orden mental, las capas del proyecto y la lista de tareas
-> para la campaña Google Ads de Mandarin.
+# Estructura de documentación del repositorio
 
+## Propósito
+Definir la estructura documental real del proyecto y su ruta de evolución, manteniendo compatibilidad con los archivos existentes.
 
-# Estructura general y lista de tareas para la campaña Google Ads de Mandarin
+## Alcance
+Aplica al contenido bajo `docs/` y su relación con carpetas operativas del repositorio (`scripts/`, `logs/`, `capturas/`, `config/`).
 
----
+## Estado
+Vigente
 
-## 01 · Estructura general del proyecto
-
-**Tres capas principales:**
-1. **Base técnica:** Medición, cuentas, integraciones y fundación digital.
-2. **Campaña Google Ads:** Estrategia, configuración y estructura de la campaña.
-3. **Soporte técnico / automatización / documentación:** Scripts, checklists y documentación operativa.
+## Fecha de actualización
+2026-04-02
 
 ---
 
-## 02 · Lista de tareas documentable
+## 1) Estructura real actual
 
-### A. Base técnica (fundación)
-- Dominio y sitio: producción, formularios, WhatsApp/teléfono, SSL.
-- Google Analytics (GA4): propiedad, instalación, eventos clave.
-- Vinculaciones: GA4 ↔ Google Ads, importación de conversiones, verificación de datos.
-
-### B. Google Ads – Configuración estratégica
-- Cuenta: acceso, facturación, permisos.
-- Campaña: tipo, objetivo, puja, presupuesto, ubicación, idioma, red de Display.
-- Estructura: grupos por producto/intención, keywords, negativas iniciales.
-
-### C. Anuncios
-- Anuncios de búsqueda: titulares, descripciones, mensaje alineado, CTA.
-- Extensiones: llamada, enlaces, destacados, ubicación.
-
-### D. Validación y lanzamiento
-- Vista previa, simulación de búsquedas, verificación de clics/conversiones, checklist final.
-
-### E. Seguimiento y optimización
-- Control diario, ajuste de CPC, revisión de términos, negativas, pausa de bajo rendimiento.
-
----
-
-## 03 · Documentación en Visual Studio Code
-
-**Estructura de carpetas recomendada:**
 ```
-mandarin-google-ads/
-│
+docs/
+├── 00_gobernanza/
+│   ├── reglas-documentacion.md
+│   ├── convenciones-nombre.md
+│   └── flujo-de-actualizacion.md
 ├── 01_base_tecnica/
-│   ├── analytics.md
-│   ├── conversiones.md
-│
+│   └── conversiones.md
 ├── 02_estrategia/
-│   ├── objetivo_campania.md
-│   ├── estructura_ads.md
-│
+│   └── objetivo_campania.md
 ├── 03_keywords/
-│   ├── grupo_paneles.md
-│   ├── grupo_divisores.md
-│   └── negativas.md
-│
-├── 04_anuncios/
-│   ├── anuncios_paneles.md
-│   └── anuncios_divisores.md
-│
-├── 05_checklists/
-│   ├── pre_lanzamiento.md
-│   └── post_lanzamiento.md
-│
+│   └── analisis_keywords.md
+├── analytics/
+│   └── evento_whatsapp.md
+├── checklist-publicacion.md
+├── estrategia-general.md
+├── etiquetaGoogleAds.md
+├── naming-campanias.md
+├── estructura_documentacion.md
 └── README.md
 ```
 
----
+## 2) Estructura objetivo (crecimiento ordenado)
 
-**Recomendaciones:**
-- Documenta cada paso y decisión en los archivos correspondientes.
-- Usa los checklists para validar antes y después del lanzamiento.
-- Mantén los scripts y automatizaciones en carpetas separadas, con comentarios claros.
-- Actualiza la documentación a medida que avances y ajustes la campaña.
+La estructura objetivo se adopta como guía para nuevos documentos, sin mover de forma destructiva los actuales:
 
-## Estado actual
-- Base técnica: en progreso
-- Campaña: pendiente
-- Scripts: pendiente
+```
+docs/
+├── 00_gobernanza/
+├── 01_base_tecnica/
+├── 02_estrategia/
+├── 03_keywords/
+├── 04_tracking/
+├── 05_operacion/
+├── 06_reportes/
+└── 99_archivo/
+```
 
+## 3) Criterios de convivencia (actual + objetivo)
+- No borrar documentación útil existente.
+- Evitar mover archivos históricos sin necesidad operativa.
+- Para nuevo contenido, priorizar la estructura objetivo.
+- Cuando un documento cambie de ubicación futura, dejar referencia explícita entre origen y destino.
+
+## 4) Fuente de verdad por tema
+- Gobernanza y reglas de trabajo: `docs/00_gobernanza/`.
+- Base técnica y conversiones: `docs/01_base_tecnica/conversiones.md`.
+- Estrategia de campaña: `docs/02_estrategia/objetivo_campania.md` y `docs/estrategia-general.md`.
+- Keywords: `docs/03_keywords/analisis_keywords.md`.
+- Tracking WhatsApp (estado actual): `docs/analytics/evento_whatsapp.md`.
+
+## 5) Relación con otras carpetas del repo
+- `scripts/`: automatizaciones operativas; todo cambio relevante debe reflejarse en `docs/`.
+- `logs/`: registro operativo e histórico.
+- `capturas/`: evidencia visual de validaciones e hitos.
+- `config/`: parámetros auxiliares (por ejemplo, negativas).

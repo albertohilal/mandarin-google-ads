@@ -43,57 +43,46 @@ No incluye desarrollo del sitio web (solo validación técnica).
 
 ## 4. Estructura del repositorio
 
+```
 mandarin-google-ads/
-│
-├── 01_base_tecnica/
-│ ├── analytics.md
-│ └── conversiones.md
-│
-├── 02_estrategia/
-│ ├── objetivo_campania.md
-│ └── estructura_ads.md
-│
-├── 03_keywords/
-│ ├── grupos_keywords.md
-│ └── negativas.md
-│
-├── 04_anuncios/
-│ └── anuncios_busqueda.md
-│
-├── 05_scripts/
-│ ├── naming_check.js
-│ ├── alertas_cpc.js
-│ └── pausas_automaticas.js
-│
-├── 06_checklists/
-│ ├── pre_lanzamiento.md
-│ └── post_lanzamiento.md
-│
-├── estructura_documentacion.md
+├── capturas/
+├── config/
+├── docs/
+│   ├── README.md
+│   ├── 00_gobernanza/
+│   ├── 01_base_tecnica/
+│   ├── 02_estrategia/
+│   ├── 03_keywords/
+│   ├── analytics/
+│   └── estructura_documentacion.md
+├── inspector/
+├── logs/
+├── scripts/
+├── snippets/
 └── README.md
+```
 
 
 ---
 
 ## 5. Documentación del proyecto
 
-La **estructura general del proyecto**, el **orden mental de trabajo** y la **lista completa de tareas** se encuentran documentadas en:
+La organización documental y las reglas de trabajo se encuentran en:
 
-- `estructura_documentacion.md`
+- `docs/README.md`
+- `docs/estructura_documentacion.md`
 
-Este archivo funciona como **documento operativo interno**, mientras que el README cumple el rol de **visión general y punto de entrada** al proyecto.
+El README raíz mantiene la visión general; `docs/` concentra el detalle operativo y técnico.
 
 ---
 
 ## 6. Estado actual del proyecto
 
-- [x] Cuenta de Google Ads creada  
-- [x] Sitio en producción operativo  
-- [ ] Google Analytics 4 configurado  
-- [ ] Conversiones definidas e importadas en Ads  
-- [ ] Campaña cargada  
-- [ ] Scripts implementados  
-- [ ] Campaña en producción  
+- Este README presenta una vista general; el estado operativo detallado debe verificarse en los documentos técnicos fuente.
+- Estado general del proyecto: **pendiente validación**.
+- Fuente global de conversiones: `docs/01_base_tecnica/conversiones.md`.
+- Referencia específica del tracking WhatsApp (`click_whatsapp`): `docs/analytics/evento_whatsapp.md`.
+- Validaciones de publicación y operación: `docs/checklist-publicacion.md` y documentos asociados en `docs/`.
 
 ---
 
