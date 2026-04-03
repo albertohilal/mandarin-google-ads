@@ -1,8 +1,9 @@
 /**
- * Script: 04_reporte_semanal.js
+ * Script: 05_reporte_mensual_marzo_2026.js
  *
  * Propósito:
- * - Generar un reporte operativo semanal de desempeño en Google Ads.
+ * - Generar un reporte operativo mensual de desempeño en Google Ads
+ *   para el período 01/03/2026 al 31/03/2026.
  *
  * Alcance:
  * - Lectura de métricas de cuenta, campañas y términos de búsqueda.
@@ -19,7 +20,8 @@
  */
 
 var CONFIG = {
-  RANGO_FECHAS: 'LAST_7_DAYS',
+  FECHA_INICIO: '20260301',
+  FECHA_FIN: '20260331',
   UMBRAL_CTR_BAJO: 1.5,
   UMBRAL_COSTO_ALTO: 50000,
   MAX_CAMPANIAS: 10,
@@ -27,24 +29,22 @@ var CONFIG = {
   MIN_CLICS_TERMINO_SOSPECHOSO: 3
 };
 
-
-
 function main() {
-  generarReporteSemanal();
+  generarReporteMensual();
 }
 
-function generarReporteSemanal() {
+function generarReporteMensual() {
   try {
     var cuenta = AdsApp.currentAccount();
-    var resumenCuenta = obtenerResumenCuenta(CONFIG.RANGO_FECHAS);
+    var resumenCuenta = obtenerResumenCuenta(CONFIG);
     var metricasCampanias = obtenerMetricasCampanias(CONFIG);
     var alertas = obtenerAlertasCampanias(metricasCampanias, CONFIG);
     var terminos = obtenerTerminosBusqueda(CONFIG);
 
     Logger.log('============================================================');
-    Logger.log('REPORTE OPERATIVO SEMANAL · GOOGLE ADS');
+    Logger.log('REPORTE OPERATIVO MENSUAL · GOOGLE ADS');
     Logger.log('Cuenta: ' + cuenta.getName() + ' (' + cuenta.getCustomerId() + ')');
-    Logger.log('Rango: ' + CONFIG.RANGO_FECHAS);
+    Logger.log('Rango: ' + CONFIG.FECHA_INICIO + ' a ' + CONFIG.FECHA_FIN);
     Logger.log('Fecha de ejecución: ' + new Date().toISOString());
     Logger.log('============================================================');
 
@@ -120,15 +120,15 @@ function generarReporteSemanal() {
 
     logSeccion('OBSERVACIONES FINALES');
     Logger.log('- Reporte generado en modo solo lectura.');
-    Logger.log('- Revisar alertas junto con documentación operativa del repositorio.');
-    Logger.log('- Útil como insumo para el reporte mensual y seguimiento temprano de desvíos.');
+    Logger.log('- Rango fijo para análisis mensual de marzo 2026.');
+    Logger.log('- Útil como insumo directo para la plantilla de reporte mensual.');
   } catch (error) {
-    Logger.log('ERROR EN REPORTE SEMANAL: ' + error);
+    Logger.log('ERROR EN REPORTE MENSUAL: ' + error);
   }
 }
 
-function obtenerResumenCuenta(rangoFechas) {
-  var stats = AdsApp.currentAccount().getStatsFor(rangoFechas);
+function obtenerResumenCuenta(config) {
+  var stats = AdsApp.currentAccount().getStatsFor(config.FECHA_INICIO, config.FECHA_FIN);
   var impresiones = safeNumber(stats.getImpressions());
   var clics = safeNumber(stats.getClicks());
   var costo = safeNumber(stats.getCost());
@@ -156,7 +156,7 @@ function obtenerMetricasCampanias(config) {
 
   while (campanias.hasNext()) {
     var campania = campanias.next();
-    var stats = campania.getStatsFor(config.RANGO_FECHAS);
+    var stats = campania.getStatsFor(config.FECHA_INICIO, config.FECHA_FIN);
     var impresiones = safeNumber(stats.getImpressions());
     var clics = safeNumber(stats.getClicks());
     var costo = safeNumber(stats.getCost());
@@ -226,7 +226,7 @@ function obtenerTerminosBusqueda(config) {
       'SELECT CampaignName, Query, Impressions, Clicks, Cost, Conversions ' +
       'FROM SEARCH_QUERY_PERFORMANCE_REPORT ' +
       'WHERE Impressions > 0 ' +
-      'DURING ' + config.RANGO_FECHAS;
+      'DURING ' + config.FECHA_INICIO + ',' + config.FECHA_FIN;
 
     var reporte = AdsApp.report(query);
     var filas = reporte.rows();

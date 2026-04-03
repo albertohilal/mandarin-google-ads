@@ -1,78 +1,141 @@
 # Evento de conversión: click_whatsapp
 
 ## Propósito
-Documentar la implementación y validación técnica del evento `click_whatsapp`.
+Documentar el estado técnico y operativo del seguimiento relacionado con WhatsApp, distinguiendo entre la implementación específica esperada del evento `click_whatsapp` y el comportamiento efectivamente observado en la validación manual reciente.
 
 ## Alcance
-Este documento aplica únicamente al evento `click_whatsapp` y no reemplaza la fuente global de conversiones del proyecto.
+Este documento aplica únicamente al seguimiento de interacciones de WhatsApp en la landing y no reemplaza la fuente global de conversiones del proyecto, que se mantiene en `docs/01_base_tecnica/conversiones.md`.
 
 ## Estado
-Pendiente validación operativa
+Vigente como referencia técnica, con validación manual parcialmente desalineada
 
 ## Fecha de actualización
-2026-04-02
+2026-04-03
+
+---
 
 ## Descripción general
 
-Este documento describe la implementación, validación y uso del evento
-**`click_whatsapp`** como evento de conversión en Google Analytics 4 (GA4)
-para la landing page del proyecto **Mandarin – Google Ads**.
+Este documento describe el seguimiento de clics en enlaces que redirigen a WhatsApp para la landing del proyecto **Mandarin – Google Ads**.
 
-El objetivo del evento es medir de forma confiable los clics en enlaces
-que redirigen a WhatsApp, los cuales representan el principal objetivo
-de conversión de la landing.
+El objetivo operativo actual es medir de forma confiable los clics a WhatsApp, ya que representan la única conversión vigente utilizada en campaña.
 
-La definición global de conversiones, su jerarquía y su estado consolidado
-se mantienen en `docs/01_base_tecnica/conversiones.md`.
+La definición global de conversiones, su jerarquía y su estado consolidado se mantienen en:
+
+- `docs/01_base_tecnica/conversiones.md`
 
 ---
 
 ## Contexto del proyecto
 
-- Tipo de sitio: Landing page (una sola página)
+- Tipo de sitio: Landing page
 - Plataforma: WordPress
 - Método de instalación de GA4: gtag.js
-- Plugin utilizado: WPCode Lite (Header & Footer)
+- Plugin reportado para inserción: WPCode Lite (Header & Footer)
 - ID de medición GA4: G-GH78BD9NFM
 - Objetivo principal: Generación de leads vía WhatsApp
 
 ---
 
-## Definición del evento
+## Qué representa `click_whatsapp`
 
-- **Nombre del evento:** `click_whatsapp`
+- **Nombre esperado del evento:** `click_whatsapp`
 - **Tipo:** Evento personalizado
-- **Categoría:** engagement
-- **Etiqueta:** whatsapp
-- **Valor:** 1
-- **Uso:** Conversión principal para Google Ads
+- **Uso esperado:** conversión específica de WhatsApp en GA4
+- **Objetivo de negocio asociado:** contacto comercial vía WhatsApp
 
-Este evento se dispara cuando el usuario hace clic en un enlace de WhatsApp
-del tipo:
+Este evento fue concebido para registrar clics en enlaces como:
 
-```
+```text
 https://api.whatsapp.com/send?phone=...
 https://wa.me/...
 https://www.whatsapp.com/...
-```
+````
 
 ---
 
-## Estado del evento
+## Estado actual del evento
 
-- Evento: click_whatsapp
-- Estado técnico: Implementación documentada como cerrada
-- Estado operativo: Pendiente validación
-- Implementación: WordPress vía WPCode Lite (Footer)
-- Fecha de cierre: 2025-12-25
+### Estado técnico esperado
 
-No requiere cambios de implementación por defecto; su uso como conversión en operación debe verificarse en GA4 y Google Ads.
+* Existe documentación de una implementación específica de `click_whatsapp`.
+* En HTML público de la landing se observaron:
+
+  * enlaces reales a `api.whatsapp.com`
+  * traza visible de `gtag('event', 'click_whatsapp', ...)`
+
+### Estado observado en validación manual
+
+En la validación manual realizada el **2026-04-03** con **Tag Assistant + GA4 DebugView** se comprobó que:
+
+* el botón de WhatsApp funciona;
+* el clic real abre correctamente una URL de `api.whatsapp.com`;
+* la interacción entra en **GA4 DebugView** como evento **`click`**;
+* ese evento `click` contiene parámetros que identifican el enlace de WhatsApp;
+* durante esa validación **no se observó el disparo efectivo de `click_whatsapp`** en DebugView.
+
+### Estado en GA4
+
+* `click_whatsapp` existe en GA4 como **evento clave**.
+* En la revisión manual de la lista de eventos figura con el estado:
+
+  * **“No se han detectado datos de flujo”**
+* Por lo tanto, no puede afirmarse que el clic real de WhatsApp esté entrando hoy a GA4 bajo el nombre `click_whatsapp`.
+
+### Estado en Google Ads
+
+* Existe una acción de conversión llamada **`Whatsapp`**.
+* **Fuente:** Sitio web
+* La acción está asociada a la landing:
+
+  * `https://mandarinsa.com.ar/mandarinsa`
+* Esa conversión registra resultados en Google Ads.
+* No quedó verificado que esa conversión esté basada en importación desde GA4; en la revisión manual se observó como conversión de **sitio web**.
 
 ---
 
-## Snippet final (GA4 – WhatsApp, robusto)
+## Resultado de la validación manual
 
-Este es el snippet técnico de referencia para producción. No debe modificarse ni duplicarse sin registrar el cambio.
+### Validación realizada
+
+Se ejecutó una prueba manual sobre la landing con el siguiente flujo:
+
+1. Activación de Tag Assistant
+2. Apertura de la landing en modo debug
+3. Clic real sobre el botón de WhatsApp
+4. Revisión en GA4 DebugView
+5. Revisión posterior en Google Ads
+
+### Hallazgos confirmados
+
+* El enlace de WhatsApp funciona correctamente.
+* El clic real se observó en GA4 DebugView como evento:
+
+  * `click`
+* Los parámetros visibles del evento confirmaron:
+
+  * `link_domain = api.whatsapp.com`
+  * `outbound = true`
+  * `page_location` dentro de la landing auditada
+  * `link_url` correspondiente a la salida hacia WhatsApp
+* `click_whatsapp` figura configurado en GA4, pero no se observó flujo reciente asociado durante la prueba.
+* Google Ads registra una conversión `Whatsapp` sobre la landing auditada.
+
+### Conclusión técnica de la prueba
+
+Hoy existe una **desalineación** entre:
+
+* el evento específico documentado: `click_whatsapp`
+* y el comportamiento efectivamente observado en GA4: `click`
+
+Por lo tanto, este documento no debe afirmar que `click_whatsapp` quedó validado de punta a punta en GA4.
+
+---
+
+## Snippet técnico de referencia
+
+El siguiente snippet se conserva como **referencia técnica de implementación esperada**.
+No debe interpretarse automáticamente como prueba de que esa implementación esté siendo la que efectivamente genera los datos observados hoy en GA4.
 
 ```html
 <script>
@@ -140,170 +203,133 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ---
 
-## Explicación técnica del snippet
+## Cómo interpretar este snippet hoy
 
-- **Interceptación del click:**
-  - El script escucha todos los clicks en el documento usando delegación de eventos (`addEventListener('click', ..., true)`).
-  - Solo intercepta clicks izquierdos normales (sin Ctrl, Shift, Alt, Meta) sobre enlaces que contienen `wa.me`, `whatsapp.com` o `api.whatsapp.com`.
-  - Si el click es válido, previene la navegación inmediata para asegurar el envío del evento.
+Este snippet representa la **implementación deseada o documentada** para el evento específico `click_whatsapp`.
 
-- **Uso de event_callback:**
-  - El evento se envía a GA4 usando `gtag('event', ...)` con la opción `event_callback`.
-  - Cuando GA4 confirma el envío, se ejecuta el callback y se navega al enlace de WhatsApp.
+Sin embargo, la prueba manual más reciente no confirmó que ese sea el evento que efectivamente llega a GA4 en el flujo real.
+Hasta resolver esa diferencia, este bloque debe leerse como:
 
-- **Uso de transport_type: 'beacon':**
-  - Se especifica `transport_type: 'beacon'` para mejorar la confiabilidad del envío del evento antes de la navegación.
-
-- **Uso de event_timeout:**
-  - Se define `event_timeout: 1500` ms para evitar que la navegación se bloquee si el callback no responde.
-  - Además, se implementa un fallback con `setTimeout` (~900 ms) para navegar aunque GA4 no responda.
-
-- **Logs esperados en consola ([GA4]):**
-  - `[GA4] WhatsApp tracker activo` al cargar el script.
-  - `[GA4] click_whatsapp detectado` cuando se intercepta un click válido.
-  - `[GA4] Evento enviado, navegando` al completar la navegación.
+* referencia técnica útil,
+* no como validación cerrada del comportamiento productivo actual.
 
 ---
 
 ## Implementación en producción
 
-Este proyecto utiliza WordPress. El snippet **no se inserta en archivos del repositorio**.
+Según la documentación del proyecto, este seguimiento se implementa en WordPress y el snippet no se inserta en archivos del repositorio.
 
-**Debe pegarse manualmente en:**
+Ubicación documentada:
 
-```
+```text
 WPCode Lite → Header & Footer → Footer
 ```
 
 ### Restricciones importantes
 
-- No usar Elementor ni shortcodes para este evento.
-- No duplicar el código en otros plugins o ubicaciones.
-- No insertar el código en el Header.
-- No usar Google Tag Manager para este evento.
-- Evitar tener otro snippet similar activo para no duplicar eventos.
+* No duplicar el código en otros plugins o ubicaciones.
+* No insertar el código en múltiples lugares.
+* Evitar tener otro snippet similar activo para no duplicar eventos.
+* Cualquier cambio en implementación real debe quedar documentado.
 
 ---
 
-## Troubleshooting (Solución de problemas)
+## Troubleshooting
 
-### Logs esperados en consola
+### Si el clic real aparece como `click`
 
-- `[GA4] WhatsApp tracker activo` (al cargar la página)
-- `[GA4] click_whatsapp detectado` (al hacer click izquierdo normal en un enlace WhatsApp)
-- `[GA4] Evento enviado, navegando` (cuando se navega al enlace tras enviar el evento)
+Eso significa que:
 
-### Diferencias entre click normal y abrir en nueva pestaña
+* GA4 está recibiendo la interacción;
+* la salida a WhatsApp existe;
+* pero no puede darse por validado que `click_whatsapp` esté disparando efectivamente.
 
-- El script **solo intercepta clicks izquierdos normales**.
-- Si el usuario hace Ctrl+Click, Shift+Click, Cmd+Click o click derecho → abrir en nueva pestaña, **no se intercepta** y la navegación ocurre normalmente (no se bloquea el flujo del usuario).
+### Si `click_whatsapp` no aparece en DebugView
 
-### Qué verificar si el evento no aparece en GA4
+Revisar:
 
-1. Revisar que el snippet esté pegado solo una vez en el Footer vía WPCode Lite.
-2. Verificar que el ID de medición de GA4 es correcto y que gtag.js está cargado antes del snippet.
-3. Usar DebugView de GA4 para validar el evento (`click_whatsapp`).
-4. Confirmar que los logs `[GA4]` aparecen en la consola del navegador.
-5. Si el evento no aparece, probar en modo incógnito y desactivar extensiones de bloqueo.
-6. No usar Google Tag Manager ni otros plugins de tracking en paralelo para este evento.
+1. si el snippet documentado sigue siendo el realmente activo;
+2. si existe otra capa de tracking capturando el clic como evento genérico;
+3. si hay duplicación o conflicto entre snippets;
+4. si el evento clave en GA4 fue creado, pero no corresponde al flujo real observado;
+5. si Google Ads está midiendo la conversión desde sitio web por una vía distinta a GA4.
 
----
+### Qué no asumir
 
-## Validación del evento
+* No asumir que `click_whatsapp` está validado solo porque exista en HTML.
+* No asumir que Google Ads usa esa conversión vía importación de GA4.
+* No asumir equivalencia entre:
 
-### Validación recomendada (DebugView)
-
-1. Abrir Google Analytics 4
-2. Ir a:
-
-   ```
-   Administrar → DebugView
-   ```
-3. Abrir la landing en modo incógnito
-4. Hacer clic en el botón de WhatsApp
-5. Verificar la aparición del evento:
-
-   ```
-   click_whatsapp
-   ```
-
-Si el evento aparece en DebugView, la implementación es correcta.
+  * `click_whatsapp` documentado
+  * `click` observado en DebugView
+    sin validación técnica adicional.
 
 ---
 
-### Validación alternativa (Tiempo real)
+## Validación recomendada
 
-Ruta:
+### Validación técnica mínima
 
-```
-Informes → Tiempo real → Eventos
-```
+1. Abrir la landing con Tag Assistant
+2. Activar sesión de debug
+3. Hacer clic real en el botón de WhatsApp
+4. Ir a GA4 DebugView
+5. Verificar qué evento entra realmente:
 
-Nota: El informe de Tiempo real puede demorar más que DebugView.
+   * `click_whatsapp`
+   * o `click`
+6. Si entra `click`, revisar sus parámetros:
 
----
+   * `link_domain`
+   * `link_url`
+   * `outbound`
+   * `page_location`
 
-## Configuración como conversión en GA4
+### Validación manual complementaria en Google Ads
 
-Una vez validado el evento:
+1. Abrir la acción de conversión `Whatsapp`
+2. Confirmar:
 
-1. Ir a:
-
-   ```
-   Configurar → Eventos
-   ```
-2. Localizar `click_whatsapp`
-3. Activar la opción **Marcar como conversión**
-
----
-
-## Uso en Google Ads
-
-Luego de marcar el evento como conversión en GA4:
-
-1. Ingresar a Google Ads
-2. Ir a:
-
-   ```
-   Herramientas → Conversiones
-   ```
-3. Importar conversiones desde Google Analytics 4
-4. Seleccionar:
-
-   * Evento: click_whatsapp
-   * Categoría: Lead
-   * Valor: usar el valor del evento
-
-Esta conversión puede utilizarse como objetivo principal de optimización,
-una vez confirmada su validación operativa.
+   * fuente real
+   * landing asociada
+   * estado de medición
+   * alertas activas
+3. Verificar si la campaña vigente optimiza por el objetivo correcto
 
 ---
 
-## Checklist de validación final
+## Estado operativo recomendado
 
-* [ ] Snippet pegado en WPCode Lite (Footer)
-* [ ] Evento visible en GA4 DebugView
-* [ ] Evento marcado como conversión en GA4
-* [ ] Conversión importada en Google Ads
-* [ ] Evento asignado a la campaña correcta
+A hoy, este documento debe leerse con esta regla:
+
+* **WhatsApp** sigue siendo la única conversión vigente del proyecto.
+* **`click_whatsapp`** sigue siendo un nombre técnico documentado y deseable.
+* Pero la **validación manual real** observó el clic en GA4 como **`click`**.
+* Hasta resolver esa diferencia, la documentación operativa principal debe apoyarse en:
+
+  * `docs/01_base_tecnica/conversiones.md`
+  * `docs/06_reportes/reporte-2026-03.md`
+
+---
+
+## Checklist de validación actual
+
+* [ ] Confirmar si el evento productivo real en GA4 debe llamarse `click_whatsapp` o mantenerse como `click` filtrado por enlace a WhatsApp
+* [ ] Confirmar si el snippet documentado es exactamente el que está activo en producción
+* [ ] Confirmar si la acción `Whatsapp` de Google Ads depende de GA4 o de medición directa de sitio web
+* [ ] Resolver la alerta de conversiones avanzadas en Google Ads si se decide mejorar la calidad de señal
+* [ ] Mantener consistencia entre este documento y `docs/01_base_tecnica/conversiones.md`
 
 ---
 
 ## Observaciones finales
 
-* Este evento puede ser suficiente para lanzar la primera campaña, una vez confirmada su validación operativa en GA4 y Google Ads.
-* Antes de lanzar Google Ads, se debe verificar que este evento esté activo, validado y correctamente importado como conversión.
-* Eventos adicionales (formulario, scroll) pueden implementarse en fases posteriores.
-* Este documento funciona como referencia técnica y operativa del proyecto.
+* Este documento funciona como referencia técnica específica del seguimiento de WhatsApp.
+* No debe usarse como prueba cerrada de validación total del evento `click_whatsapp`.
+* La fuente global de verdad del estado de conversiones del proyecto sigue siendo:
 
----
+  * `docs/01_base_tecnica/conversiones.md`
+* El informe operativo con resultados y validación manual aplicada se mantiene en:
 
-### Qué sigue ahora (orden correcto)
+  * `docs/06_reportes/reporte-2026-03.md`
 
-1. Commit de este archivo en el repo  
-2. Pegado del snippet en **WPCode Lite → Footer**  
-3. Validación en **GA4 DebugView**  
-4. Marcar conversión  
-5. Importar en Google Ads  
-
-Cuando quieras, seguimos **exactamente** por el siguiente paso.

@@ -9,7 +9,7 @@ El repositorio documenta tanto la **estrategia publicitaria** como la **implemen
 ## 1. Objetivos del proyecto
 
 - Lanzar y optimizar una campaña de Google Ads orientada a leads.
-- Medir resultados reales (formularios, WhatsApp, llamadas).
+- Medir resultados reales según conversiones vigentes documentadas (ver docs/01_base_tecnica/conversiones.md).
 - Garantizar una base de medición confiable antes de escalar inversión.
 - Estandarizar el proceso para reutilizarlo en futuros clientes.
 - Automatizar tareas repetitivas cuando sea conveniente.
