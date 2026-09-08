@@ -32,3 +32,9 @@ Thumbs.db
 # Archivos de descarga incompletos
 *.crdownload
 *.part
+
+# Material auxiliar local — no versionar
+AUXILIAR/
+
+# Estado local de agentes/herramientas
+.atl/
