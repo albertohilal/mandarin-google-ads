@@ -82,6 +82,8 @@ El README raíz mantiene la visión general; `docs/` concentra el detalle operat
 - Estado general del proyecto: **pendiente validación**.
 - Fuente global de conversiones: `docs/01_base_tecnica/conversiones.md`.
 - Referencia específica del tracking WhatsApp (`click_whatsapp`): `docs/analytics/evento_whatsapp.md`.
+- Fuente de verdad para análisis mensual y conciliación Ads-GA4: `docs/analytics/analisis-ga4-mensual.md`.
+- La conciliación Ads-GA4 solo se calcula con evidencia suficiente y período coincidente; si faltan datos debe figurar como **no calculable**, no como cero.
 - Validaciones de publicación y operación: `docs/checklist-publicacion.md` y documentos asociados en `docs/`.
 
 ---

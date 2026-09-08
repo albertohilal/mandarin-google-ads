@@ -10,7 +10,7 @@ Aplica a la medición de la landing activa de Mandarin, a la configuración de c
 Vigente
 
 ## Fecha de actualización
-2026-04-03
+2026-09-08
 
 ---
 
@@ -28,7 +28,9 @@ La revisión funcional y documental actual permite afirmar lo siguiente:
 ## 2) Conversión vigente
 
 ### WhatsApp
-- **Nombre operativo:** `Whatsapp` / `click_whatsapp`
+- **Acción de conversión en Google Ads:** `Whatsapp`
+- **Evento observado en GA4:** `click`
+- **Evento específico esperado/configurado en GA4:** `click_whatsapp` (no confirmado como evento que esté disparando)
 - **Estado:** vigente
 - **Prioridad para campaña:** principal
 - **Uso operativo:** optimización, validación manual y lectura de resultados
@@ -43,22 +45,23 @@ En la validación manual realizada con **Tag Assistant + GA4 DebugView** se conf
 - con parámetros de salida que identifican claramente el enlace de WhatsApp.
 
 Parámetros observados en GA4 DebugView:
+- **Filtro operativo observado:** `event_name=click`, `link_domain=api.whatsapp.com`, `outbound=true`
 - `link_domain = api.whatsapp.com`
 - `outbound = true`
 - `page_location` dentro de la landing auditada
-- `link_url` correspondiente a la URL saliente de WhatsApp
+- `link_url` correspondiente a la URL saliente de WhatsApp, conservado como evidencia útil
 
 ### Estado de `click_whatsapp` en GA4
-- `click_whatsapp` existe en GA4 como **evento clave**.
+- `click_whatsapp` existe en GA4 como **evento clave esperado/configurado**.
 - En la revisión manual de eventos, figura con **“No se han detectado datos de flujo”**.
-- Por lo tanto, no quedó confirmado que el clic real de WhatsApp esté entrando hoy a GA4 con el nombre `click_whatsapp`.
+- Por lo tanto, no quedó confirmado que el clic real de WhatsApp esté entrando hoy a GA4 con el nombre `click_whatsapp`; no debe confundirse con el `click` observado.
 
 ### Estado de `Whatsapp` en Google Ads
 - Existe una acción de conversión llamada **`Whatsapp`**.
 - **Fuente:** Sitio web
 - **Landing asociada:** `https://mandarinsa.com.ar/mandarinsa`
 - **Estado operativo:** registra conversiones
-- **Observación:** presenta alerta de configuración en conversiones avanzadas, pero la medición base existe y la acción está activa sobre la landing.
+- **Observación:** presenta alerta de configuración en conversiones avanzadas, pero la medición base existe y la acción está activa sobre la landing. No se documenta como importación de GA4.
 
 ---
 
@@ -102,11 +105,15 @@ Las campañas activas no deben optimizar contra:
 - El clic a WhatsApp se observó como **`click`**.
 - `click_whatsapp` existe como evento clave, pero no mostró flujo reciente en la validación realizada.
 - Existe desalineación entre el nombre del evento esperado y el evento efectivamente observado.
+- El procedimiento mensual para contrastar esa desalineación con Google Ads se mantiene en `docs/analytics/analisis-ga4-mensual.md`.
 
 ### Google Ads
 - La conversión **`Whatsapp`** existe como acción de sitio web.
 - La landing registra conversiones para esa acción.
 - La campaña vigente fue ajustada para optimizar solo por **`Contactos`**, evitando mezclar formularios o cotizaciones como señal principal.
+
+### Separación de validación comercial
+La acción `Whatsapp` de Google Ads y los eventos de GA4 son señales de medición. La validación comercial debe mantenerse separada y realizarse con evidencia del negocio. Un clic técnico, una conversión atribuida por Ads o un evento de GA4 no equivalen por sí mismos a un lead, una conversación, una venta o un cliente.
 
 ---
 
@@ -118,6 +125,8 @@ Hasta resolver la desalineación entre GA4 y Google Ads, los documentos del repo
 - No tratar `click_tel` como conversión pendiente o activa.
 - Documentar explícitamente cuando Google Ads esté midiendo `Whatsapp` como conversión de sitio web y no como importación desde GA4.
 - Si una campaña se ajusta para optimizar solo por `Contactos`, dejarlo asentado en el reporte operativo correspondiente.
+- No completar valores ausentes con `0`: usar **`no calculable`** cuando falte evidencia o el dato no pueda obtenerse de forma válida. El cero solo representa un cero observado en una fuente completa y verificable.
+- No calcular la conciliación Ads-GA4 sin el período coincidente, las exportaciones necesarias, el filtro operativo de GA4 y la evidencia de origen; en el estado actual, la conciliación es **no calculable**.
 
 ---
 
@@ -135,10 +144,13 @@ Hasta resolver la desalineación entre GA4 y Google Ads, los documentos del repo
 - **Excluir** formulario y teléfono del alcance actual.
 - **Documentar** toda validación manual real en el reporte mensual y en checklist operativo.
 - **Revisar** cualquier automatización o script que asuma que el evento validado en GA4 se llama necesariamente `click_whatsapp`.
+- **Usar** `docs/analytics/analisis-ga4-mensual.md` como fuente de verdad para la conciliación mensual Ads-GA4.
 
 ---
 
 ## 9) Documentos relacionados
 - `docs/analytics/evento_whatsapp.md`
+- `docs/analytics/analisis-ga4-mensual.md`
+- `docs/analytics/checklist-analisis-ga4-mensual.md`
 - `docs/checklist-publicacion.md`
 - `docs/06_reportes/reporte-2026-03.md`

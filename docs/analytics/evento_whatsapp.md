@@ -1,4 +1,4 @@
-# Evento de conversión: click_whatsapp
+# Seguimiento de clics a WhatsApp en GA4
 
 ## Propósito
 Documentar el estado técnico y operativo del seguimiento relacionado con WhatsApp, distinguiendo entre la implementación específica esperada del evento `click_whatsapp` y el comportamiento efectivamente observado en la validación manual reciente.
@@ -10,7 +10,7 @@ Este documento aplica únicamente al seguimiento de interacciones de WhatsApp en
 Vigente como referencia técnica, con validación manual parcialmente desalineada
 
 ## Fecha de actualización
-2026-04-03
+2026-09-08
 
 ---
 
@@ -23,6 +23,10 @@ El objetivo operativo actual es medir de forma confiable los clics a WhatsApp, y
 La definición global de conversiones, su jerarquía y su estado consolidado se mantienen en:
 
 - `docs/01_base_tecnica/conversiones.md`
+
+La metodología mensual para analizar y conciliar datos de GA4 con Google Ads se mantiene en:
+
+- `docs/analytics/analisis-ga4-mensual.md`
 
 ---
 
@@ -41,8 +45,10 @@ La definición global de conversiones, su jerarquía y su estado consolidado se 
 
 - **Nombre esperado del evento:** `click_whatsapp`
 - **Tipo:** Evento personalizado
-- **Uso esperado:** conversión específica de WhatsApp en GA4
+- **Uso esperado:** evento específico esperado/configurado para identificar clics a WhatsApp en GA4
 - **Objetivo de negocio asociado:** contacto comercial vía WhatsApp
+
+Este evento esperado no debe confundirse con la acción de conversión **`Whatsapp`** de Google Ads ni con el evento genérico **`click`** observado en GA4.
 
 Este evento fue concebido para registrar clics en enlaces como:
 
@@ -74,9 +80,17 @@ En la validación manual realizada el **2026-04-03** con **Tag Assistant + GA4 D
 * ese evento `click` contiene parámetros que identifican el enlace de WhatsApp;
 * durante esa validación **no se observó el disparo efectivo de `click_whatsapp`** en DebugView.
 
+El filtro operativo observado fue exactamente:
+
+```text
+event_name=click, link_domain=api.whatsapp.com, outbound=true
+```
+
+`link_url` debe conservarse como evidencia útil de la URL saliente, junto con `page_location` cuando esté disponible.
+
 ### Estado en GA4
 
-* `click_whatsapp` existe en GA4 como **evento clave**.
+* `click_whatsapp` existe en GA4 como **evento clave esperado/configurado**.
 * En la revisión manual de la lista de eventos figura con el estado:
 
   * **“No se han detectado datos de flujo”**
@@ -90,7 +104,7 @@ En la validación manual realizada el **2026-04-03** con **Tag Assistant + GA4 D
 
   * `https://mandarinsa.com.ar/mandarinsa`
 * Esa conversión registra resultados en Google Ads.
-* No quedó verificado que esa conversión esté basada en importación desde GA4; en la revisión manual se observó como conversión de **sitio web**.
+* La acción se observó como conversión de **sitio web**; no quedó verificado que esté basada en una importación desde GA4.
 
 ---
 
@@ -118,7 +132,7 @@ Se ejecutó una prueba manual sobre la landing con el siguiente flujo:
   * `outbound = true`
   * `page_location` dentro de la landing auditada
   * `link_url` correspondiente a la salida hacia WhatsApp
-* `click_whatsapp` figura configurado en GA4, pero no se observó flujo reciente asociado durante la prueba.
+* `click_whatsapp` figura esperado/configurado en GA4, pero no se observó flujo reciente asociado durante la prueba.
 * Google Ads registra una conversión `Whatsapp` sobre la landing auditada.
 
 ### Conclusión técnica de la prueba
@@ -128,7 +142,7 @@ Hoy existe una **desalineación** entre:
 * el evento específico documentado: `click_whatsapp`
 * y el comportamiento efectivamente observado en GA4: `click`
 
-Por lo tanto, este documento no debe afirmar que `click_whatsapp` quedó validado de punta a punta en GA4.
+Por lo tanto, este documento no debe afirmar que `click_whatsapp` quedó validado de punta a punta en GA4 ni que la acción `Whatsapp` de Ads sea ese evento. La reconciliación entre plataformas requiere evidencia adicional y actualmente es **no calculable**.
 
 ---
 
@@ -263,6 +277,7 @@ Revisar:
   * `click_whatsapp` documentado
   * `click` observado en DebugView
     sin validación técnica adicional.
+* No asumir que un clic técnico, una conversión atribuida por Google Ads o un evento de GA4 sea un lead, una conversación, una venta o un cliente.
 
 ---
 
@@ -285,6 +300,8 @@ Revisar:
    * `outbound`
    * `page_location`
 
+La evidencia debe registrar el filtro operativo completo: `event_name=click`, `link_domain=api.whatsapp.com`, `outbound=true`, conservando `link_url` como evidencia útil.
+
 ### Validación manual complementaria en Google Ads
 
 1. Abrir la acción de conversión `Whatsapp`
@@ -303,11 +320,14 @@ Revisar:
 A hoy, este documento debe leerse con esta regla:
 
 * **WhatsApp** sigue siendo la única conversión vigente del proyecto.
-* **`click_whatsapp`** sigue siendo un nombre técnico documentado y deseable.
+* **`click_whatsapp`** sigue siendo un nombre técnico esperado/configurado y deseable, no confirmado como evento que esté disparando.
 * Pero la **validación manual real** observó el clic en GA4 como **`click`**.
+* El criterio operativo observado es `event_name=click`, `link_domain=api.whatsapp.com`, `outbound=true`; `link_url` es evidencia útil.
+* La conciliación Ads-GA4 es **no calculable** mientras no estén disponibles las evidencias y exportaciones requeridas; no se debe sustituir un dato ausente por cero.
 * Hasta resolver esa diferencia, la documentación operativa principal debe apoyarse en:
 
   * `docs/01_base_tecnica/conversiones.md`
+  * `docs/analytics/analisis-ga4-mensual.md`
   * `docs/06_reportes/reporte-2026-03.md`
 
 ---
@@ -319,6 +339,7 @@ A hoy, este documento debe leerse con esta regla:
 * [ ] Confirmar si la acción `Whatsapp` de Google Ads depende de GA4 o de medición directa de sitio web
 * [ ] Resolver la alerta de conversiones avanzadas en Google Ads si se decide mejorar la calidad de señal
 * [ ] Mantener consistencia entre este documento y `docs/01_base_tecnica/conversiones.md`
+* [ ] Mantener la validación comercial separada de las mediciones de Google Ads y GA4
 
 ---
 
@@ -326,10 +347,13 @@ A hoy, este documento debe leerse con esta regla:
 
 * Este documento funciona como referencia técnica específica del seguimiento de WhatsApp.
 * No debe usarse como prueba cerrada de validación total del evento `click_whatsapp`.
+* Ninguna señal técnica documentada aquí equivale por sí sola a un lead, conversación, venta o cliente; la validación comercial es independiente.
 * La fuente global de verdad del estado de conversiones del proyecto sigue siendo:
 
   * `docs/01_base_tecnica/conversiones.md`
+* La fuente de verdad del procedimiento mensual de conciliación Ads-GA4 es:
+
+  * `docs/analytics/analisis-ga4-mensual.md`
 * El informe operativo con resultados y validación manual aplicada se mantiene en:
 
   * `docs/06_reportes/reporte-2026-03.md`
-

@@ -20,6 +20,12 @@ Este directorio centraliza la documentación operativa y técnica del proyecto d
 
 ### analytics/
 - `evento_whatsapp.md`
+- `analisis-ga4-mensual.md`
+- `checklist-analisis-ga4-mensual.md`
+- Datos y trazabilidad GA4: `../data/ga4/README.md`
+
+### 06_reportes/
+- `plantilla-reporte-mensual.md`
 
 ### Documentos transversales
 - `checklist-publicacion.md`
@@ -50,3 +56,4 @@ Se mantiene compatibilidad con lo existente y se adopta este orden como referenc
 ## Entrada recomendada
 - Gobernanza: `00_gobernanza/reglas-documentacion.md`
 - Estructura y mapa del repositorio: `estructura_documentacion.md`
+- Conciliación mensual Ads-GA4: `analytics/analisis-ga4-mensual.md`

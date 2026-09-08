@@ -33,6 +33,9 @@ Thumbs.db
 *.crdownload
 *.part
 
+# Exportaciones crudas de GA4
+data/ga4/*/raw/*
+
 # Material auxiliar local — no versionar
 AUXILIAR/
 

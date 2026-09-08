@@ -10,7 +10,7 @@ Aplica al análisis mensual de campañas activas, su calidad de medición y las 
 Vigente
 
 ## Fecha de actualización
-2026-04-02
+2026-09-08
 
 ---
 
@@ -19,6 +19,7 @@ Vigente
 - **Período analizado:** [YYYY-MM-DD a YYYY-MM-DD]
 - **Responsable del informe:** [Nombre y rol]
 - **Fuentes de datos utilizadas:** [Google Ads / GA4 / capturas / logs / otros]
+- **Trazabilidad de fuentes:** [Período / fuente u origen / fecha de extracción / hash si está disponible / evidencia utilizada]
 - **Tipo de base del informe (marcar una):**
   - [ ] Datos consolidados
   - [ ] Datos parciales
@@ -58,20 +59,45 @@ Vigente
 - [Vigente / Pendiente validación / Incidencias]
 - [Detalle breve de estado de GA4 y Google Ads]
 
-### Conversiones consideradas
-- [form_submit: estado del período]
-- [click_whatsapp: estado del período]
-- [click_tel: estado del período]
+### Google Ads
+- **Conversiones atribuidas por Google Ads:** [Cantidad y alcance del dato]
+- **Modelo o fuente disponible:** [Sitio web / importación / no verificado / otro; no asumir importación desde GA4]
+- **Costo por conversión:** [Valor del período]
 
-### Observaciones sobre `click_whatsapp`
-- [Resultado de validación en GA4 DebugView / Tiempo real]
-- [Estado en Google Ads: importada / no importada / pendiente]
-- [Notas operativas relevantes]
+### GA4
+- **Evento observado:** [`click` con filtro `event_name=click`, `link_domain=api.whatsapp.com`, `outbound=true` / `click_whatsapp` no confirmado / no verificado]
+- **Total de eventos de WhatsApp registrados por GA4:** [Valor del período]
+- **Usuarios totales asociados:** [Valor del período]
+- **Sesiones totales asociadas:** [Valor del período]
+- **Eventos de WhatsApp procedentes de `google / cpc` o `Paid Search`:** [Valor comparable principal en GA4]
+- **Usuarios procedentes de `google / cpc` o `Paid Search`:** [Valor complementario]
+- **Páginas de destino con mayor interacción:** [Resumen breve]
+- **Estado de validación:** [Validado / Parcial / Pendiente]
 
-### Inconsistencias detectadas
-- [Diferencias GA4 vs Google Ads]
-- [Eventos sin volumen esperado]
-- [Otros desvíos]
+### Conciliación Ads-GA4
+- **Valor comparable principal:** [Conversiones atribuidas por Google Ads vs eventos GA4 que cumplen el filtro de WhatsApp y provienen de tráfico pago]
+- **Diferencia absoluta:** [Valor]
+- **Diferencia porcentual:** [Valor]
+- **Causas posibles:** [Resumen breve]
+- **Conclusión:** [Síntesis operativa]
+- **Nivel de confiabilidad:** [Alta / Media / Baja]
+- **Regla de cálculo:** [Si falta evidencia suficiente, período coincidente, origen o exportación requerida, registrar `no calculable`; no usar cero para datos ausentes]
+
+### Regla editorial obligatoria
+- Usar “conversiones atribuidas por Google Ads” cuando no exista validación suficiente.
+- Usar “eventos de WhatsApp registrados por GA4” cuando se hable de GA4.
+- Reservar “contactos comerciales” para datos confirmados por una fuente comercial o por una validación que permita sostener esa equivalencia.
+- No equiparar un clic técnico, una conversión atribuida por Ads o un evento de GA4 con un lead, una conversación, una venta o un cliente.
+- Mantener la validación comercial separada de los resultados de Google Ads y GA4.
+
+### Metodología aplicable
+- Resumir aquí solo el resultado del período.
+- La conciliación principal no compara Google Ads contra todos los eventos de WhatsApp de GA4.
+- El valor comparable en GA4 debe limitarse a eventos de WhatsApp que cumplan el filtro operativo y procedan de `google / cpc` o `Paid Search`.
+- La metodología mensual y el checklist operativo se mantienen en:
+  - [docs/analytics/analisis-ga4-mensual.md](../analytics/analisis-ga4-mensual.md)
+  - [docs/analytics/checklist-analisis-ga4-mensual.md](../analytics/checklist-analisis-ga4-mensual.md)
+- La acción de Ads `Whatsapp`, el `click` observado en GA4 y `click_whatsapp` son señales distintas; no afirmar conciliación si falta la evidencia requerida.
 
 ## 5) Rendimiento por campaña
 | Campaña | Impresiones | Clics | CTR | CPC prom. | Costo | Conversiones | Tasa conv. | Costo/conv. | Estado |
@@ -160,6 +186,8 @@ Vigente
 ### Documentos relacionados del repo
 - [docs/01_base_tecnica/conversiones.md](../01_base_tecnica/conversiones.md)
 - [docs/analytics/evento_whatsapp.md](../analytics/evento_whatsapp.md)
+- [docs/analytics/analisis-ga4-mensual.md](../analytics/analisis-ga4-mensual.md)
+- [docs/analytics/checklist-analisis-ga4-mensual.md](../analytics/checklist-analisis-ga4-mensual.md)
 - [docs/checklist-publicacion.md](../checklist-publicacion.md)
 
 ## 12) Cierre
